@@ -46,6 +46,8 @@ public class IcebergCatalogWrapperManager implements AutoCloseable {
 
   private CredentialProviderManager credentialProviderManager;
 
+  private MyUtil myUtil = new MyUtil();
+
   public IcebergCatalogWrapperManager(
       Map<String, String> properties, IcebergConfigProvider configProvider) {
     this.credentialProviderManager = new CredentialProviderManager();
@@ -85,6 +87,7 @@ public class IcebergCatalogWrapperManager implements AutoCloseable {
   }
 
   public IcebergCatalogWrapper getCatalogWrapper(String catalogName) {
+    String key = myUtil.getKey();
     IcebergCatalogWrapper catalogWrapper =
         icebergCatalogWrapperCache.get(catalogName, k -> createCatalogWrapper(catalogName));
     // Reload conf to reset UserGroupInformation or icebergTableOps will always use
